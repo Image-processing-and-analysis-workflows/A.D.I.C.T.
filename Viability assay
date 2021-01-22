@@ -1,0 +1,17 @@
+#Code is a recording of image processing steps used for viability assay in figure 1
+
+imp = IJ.getImage();
+#### Remains of marker where removed by brush tool and colorized like background##########
+
+
+IJ.run(name, "edges", ""); # LUT 'edges' higlights regions of higher density, which is the biofilm actually
+
+IJ.saveAs(name, "Tiff", "path");
+IJ.run("Close");
+###########################################################################################
+IJ.run(name, "Duplicate...", " "); #always work with duplicates in order to avoid data loss
+
+IJ.run(imp, "edges", "");
+IJ.run(imp, "Save", "");
+imp.close();
+IJ.run("Close");
