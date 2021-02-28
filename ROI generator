@@ -1,0 +1,28 @@
+"### Define paths ####"
+
+ROI = getDirectory("Choose an ROI file Directory");
+TiffBinary = getDirectory("Choose an Projection file Directory");
+
+setBatchMode(false)
+
+
+macro "ROI extraction and organization" {
+
+list = getFileList(TiffBinary);
+for(c=0; c<list.length; c++) {
+	open(TiffBinary+list[c]);
+title =	getTitle();
+	name = title; 
+
+run("Duplicate...", " ");
+		run("Convert to Mask");
+		setAutoThreshold("Otsu dark no-reset");
+		setThreshold(255, 255);
+		run("Analyze Particles...", "  show=Masks add");   //"### Mask objects within Binary###"
+		roiManager("Save", ROI + name +".zip");      //"#### RoiManager: create 'Region of interest'-list and save data ######"
+		roiManager("reset")
+close();
+close();
+close();
+}
+}
