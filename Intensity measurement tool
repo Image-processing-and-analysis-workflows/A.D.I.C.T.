@@ -1,0 +1,31 @@
+macro "Measurements according to ROI" {
+
+        run("Set Measurements...", "area mean min integrated limit display redirect=None decimal=3");
+        dir1 = getDirectory("Choose an Image Directory ");
+        dir2 = getDirectory("Choose an ROI file Directory");
+        dir3 = getDirectory("Choose an Results Directory");
+        setBatchMode(false);
+
+        list = getFileList(dir1);
+        list2 = getFileList(dir2);
+         for (i=0; i<list.length; i++) {
+                path = dir1+list[i];
+                showProgress(i, list.length);
+                open(path);
+                title=getTitle();
+                name=title;
+                //loading ROIs here
+                                path2 = dir2+list2[i];
+								roiManager("Open", path2);
+                                roiManager("Deselect");
+                                run("Subtract...", "value=100");
+                                roiManager("Measure");
+                                saveAs("Results", dir3+name+".csv");
+                                run("Clear Results");
+                                roiManager("Delete");
+                                close();
+
+   
+    }
+
+         }
