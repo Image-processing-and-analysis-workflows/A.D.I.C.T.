@@ -1,0 +1,206 @@
+"### Define paths ####"
+
+        run("Set Measurements...", "area mean min integrated limit display redirect=None decimal=3");
+              
+       	Ffh_nc = "~path to your folder/raw_tiff/Ffh/a_NC/"
+		    Ffh_30min = "~path to your folder/raw_tiff/Ffh/b_after_30_min/"
+		    Ffh_60min = "~path to your folder/raw_tiff/Ffh/c_after_60min/"
+        
+		    FtsY_nc = "~path to your folder/raw_tiff/FtsY/a_NC/"
+		    FtsY_30min = "~path to your folder/raw_tiff/FtsY/b_after_30_min/"
+		    FtsY_60min = "~path to your folder/raw_tiff/FtsY/c_after_60_min/"  
+        
+        L1_nc = "~path to your folder/raw_tiff/L1/a_NC/"
+        L1_30min = "~path to your folder/raw_tiff/L1/b_after_30_min/"
+        L1_60min = "~path to your folder/raw_tiff/L1/c_after_60min/"
+        
+		    Projections = "~path to your folder/Projections/"
+        
+        setBatchMode(false);
+
+"#### Create Projection (cropped) ######"
+
+ macro "Projection tool" {
+
+list = getFileList(Ffh_nc);
+for(c=0; c<list.length; c++) {
+	open(Ffh_nc+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"Ffh_nc_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+list = getFileList(Ffh_30min);
+for(c=0; c<list.length; c++) {
+	open(Ffh_30min+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"Ffh_30min_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+list = getFileList(Ffh_60min);
+for(c=0; c<list.length; c++) {
+	open(Ffh_60min+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"Ffh_60min_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+list = getFileList(FtsY_nc);
+for(c=0; c<list.length; c++) {
+	open(FtsY_nc+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"FtsY_nc_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+list = getFileList(FtsY_30min);
+for(c=0; c<list.length; c++) {
+	open(FtsY_30min+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"FtsY_30min_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+list = getFileList(FtsY_60min);
+for(c=0; c<list.length; c++) {
+	open(FtsY_60min+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"FtsY_60min_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+list = getFileList(L1_nc);
+for(c=0; c<list.length; c++) {
+	open(L1_nc+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"L1_nc_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+list = getFileList(L1_30min);
+for(c=0; c<list.length; c++) {
+	open(L1_30min+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"L1_30min_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+list = getFileList(L1_60min);
+for(c=0; c<list.length; c++) {
+	open(L1_60min+list[c]);
+	f=c+1;
+	name = "series00";
+		Laser_excitation_start=501;
+ 		Acquisition_limitation=1000;
+ 		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
+		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
+ 		run("Z Project...", "projection=[Standard Deviation]");
+		run("Fire");
+		run("Enhance Contrast", "saturated=0.35");
+		saveAs("Tiff",Projections+"L1_60min_"+name+f+".tiff");
+ 		close();
+ 		close();
+ 		close();
+}
+
+
+
+
+ }
