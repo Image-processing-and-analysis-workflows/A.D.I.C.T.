@@ -1,3 +1,11 @@
+
+// This macro measures each cell sequentially according to privously extracted ROI. It calls each image in the folder, each roi in each image and measures according to your needs.
+
+// You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
+// paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
+// will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
+// full automation you can use the command "getDirectory("name of your path") instead of the prefixed liner 
+
 macro "Measurements according to ROI" {
 
         run("Set Measurements...", "area mean min integrated limit display redirect=None decimal=3");
@@ -14,9 +22,9 @@ macro "Measurements according to ROI" {
                 open(path);
                 title=getTitle();
                 name=title;
-                //loading ROIs here
+                //loading ROIs here; this loop opens and closes roi sequentially after conducting the action you want (in this workflow "Measure" which is defined by "Set Measurements")
                                 path2 = dir2+list2[i];
-								roiManager("Open", path2);
+				roiManager("Open", path2);
                                 roiManager("Deselect");
                                 run("Subtract...", "value=100");
                                 roiManager("Measure");
