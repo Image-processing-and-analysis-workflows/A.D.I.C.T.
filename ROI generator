@@ -1,16 +1,22 @@
+// This macro generates regions of interest (roi) from binary images. Loops are organized to generate and store those projections in your folder structure.
+// You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
+// paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
+// will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
+// full automation you can use the command "getDirectory("name of your path") instead of the prefixed liner 
+
 "### Define paths ####"
 
 ROI = getDirectory("Choose an ROI file Directory");
-TiffBinary = getDirectory("Choose an Projection file Directory");
+Binary = getDirectory("Choose an Projection file Directory");
 
 setBatchMode(false)
 
 
 macro "ROI extraction and organization" {
 
-list = getFileList(TiffBinary);
+list = getFileList(Binary);
 for(c=0; c<list.length; c++) {
-	open(TiffBinary+list[c]);
+	open(Binary+list[c]);
 title =	getTitle();
 	name = title; 
 
