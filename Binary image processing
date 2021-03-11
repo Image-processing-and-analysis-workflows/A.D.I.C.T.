@@ -1,32 +1,32 @@
 
 // Welcome to A.D.I.C.T. workflow
 // 
-// This script can be used, modified and redistributed according to GPL v3.0
-// No warranty for the outcome for the content of this script.
-// Please cite the following puplications relevant for this workflow:
-//
-//
+// This script processes raw brightfield images into segmented and filtered binary images. Phase contrast or other imaging methods can also serve as raw data for the
+// binary processor. You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
+// paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
+// will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
+// full automation you can use the command "getDirectory("name of your path") instead of the prefixed liner 
 
 macro "Binary processing script" {
 
         run("Set Measurements...", "area mean min integrated limit display redirect=None decimal=3"); 	// Define a set of measurments for further analysis
-        raw_Ffh_nc = "~path_your_folder/raw_Bf/Ffh/a_Steady/phase/"	//getDirectory("Choose an raw image folder containing brightfield images "); // let the FIJI know, where the raw images are stored     
+        raw_Ffh_nc = "~path_your_folder/raw_Bf/Ffh/a_Steady/phase/"					//getDirectory("Choose an raw image folder containing brightfield images "); // let the FIJI know, where the raw images are stored     
         raw_Ffh_30min = "~path_your_folder/Ffh/b_30min/phase/"
         raw_Ffh_60min = "~path_your_folder/raw_Bf/Ffh/c_60min/phase/"
 
-        raw_FtsY_nc = 	"~path_your_folder/raw_Bf/FtsY/a_Steady/phase/"		//getDirectory("Choose an raw image folder containing brightfield images "); // let the FIJI know, where the raw images are stored     
+        raw_FtsY_nc = 	"~path_your_folder/raw_Bf/FtsY/a_Steady/phase/"	 				//getDirectory("Choose an raw image folder containing brightfield images "); // let the FIJI know, where the raw images are stored     
         raw_FtsY_30min = "~path_your_folder/raw_Bf/FtsY/b_30min/phase/"
         raw_FtsY_60min = "~path_your_folder/raw_Bf/FtsY/c_60min/phase/"
 
-        raw_L1_nc = "~path_your_folder/raw_Bf/L1/a_Steady/phase/"			//getDirectory("Choose an raw image folder containing brightfield images "); // let the FIJI know, where the raw images are stored     
+        raw_L1_nc = "~path_your_folder/raw_Bf/L1/a_Steady/phase/"					//getDirectory("Choose an raw image folder containing brightfield images "); // let the FIJI know, where the raw images are stored     
         raw_L1_30min = "~path_your_folder/raw_Bf/L1/b_30min/phase/"
         raw_L1_60min = "~path_your_folder/raw_Bf/L1/c_60min/phase/"
         
-        Masks = 	 "~path_your_folder/Masks/"							   //getDirectory("Choose an Mask Folder"); // let the FIJI know, where the processed images are stored
+        Masks = 	 "~path_your_folder/Masks/"							//getDirectory("Choose an Mask Folder"); // let the FIJI know, where the processed images are stored
         
-        setBatchMode(false); // set "true" if you want to monitor transformation and processing progress virtually
+        setBatchMode(false); 										// set "true" if you want to monitor transformation and processing progress virtually
 
-        list1 = getFileList(raw_Ffh_nc);
+       		list1 = getFileList(raw_Ffh_nc);
 		list2 = getFileList(raw_Ffh_30min);
 		list3 = getFileList(raw_Ffh_60min);
 		list4 = getFileList(raw_FtsY_nc);
@@ -48,22 +48,22 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");				  	 	//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black"); 	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");			 		//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");			  		//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 			  		//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "Ffh_nc_" + name); 						    		//save as .tiff using an iteration for timepoint and image number
+           	saveAs("tiff", Masks + "Ffh_nc_" + name); 		//save as .tiff using an iteration for timepoint and image number; for .png just use the FIJI batch processor quick conversion
             
             
-             run("Close All");
+             	run("Close All");
              					
              					
         
@@ -77,22 +77,22 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
-    		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+         	run("Duplicate...", " "); 				//always use duplicates not raw images
+    		run("Kuwahara Filter", "sampling=2");			// Kuwahara filter for noise reduction; sampling values can be modified 
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other thresholding algorithms can be applied respectively; you can use 'try all' function in Auto Threshold for inital decision making 
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "Ffh_30min_" + name); 								//save as .tiff using an iteration for timepoint and image number
+            	saveAs("tiff", Masks + "Ffh_30min_" + name); 		//save as .tiff using an iteration for timepoint and image number; for .png just use the FIJI batch processor quick conversion
             
             
-            run("Close All");
+            	run("Close All");
              					
         
 		}
@@ -105,19 +105,19 @@ macro "Binary processing script" {
 	
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "Ffh_60min_" + name); 								//save as .tiff using an iteration for timepoint and image number
+            saveAs("tiff", Masks + "Ffh_60min_" + name); 		//save as .tiff using an iteration for timepoint and image number
             
             
             run("Close All");
@@ -134,19 +134,19 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "FtsY_nc_" + name); 								//save as .tiff using an iteration for timepoint and image number
+            saveAs("tiff", Masks + "FtsY_nc_" + name); 			//save as .tiff using an iteration for timepoint and image number
             
             
              run("Close All");
@@ -162,19 +162,19 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "FtsY_30min_" + name); 								//save as .tiff using an iteration for timepoint and image number
+            saveAs("tiff", Masks + "FtsY_30min_" + name); 		//save as .tiff using an iteration for timepoint and image number
             
             
             run("Close All");
@@ -190,19 +190,19 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "FtsY_60min_" + name); 								//save as .tiff using an iteration for timepoint and image number
+            saveAs("tiff", Masks + "FtsY_60min_" + name); 		//save as .tiff using an iteration for timepoint and image number
             
             
             run("Close All");
@@ -221,19 +221,19 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "L1_nc_" + name); 									//save as .tiff using an iteration for timepoint and image number
+            saveAs("tiff", Masks + "L1_nc_" + name); 			//save as .tiff using an iteration for timepoint and image number
             
             
              run("Close All");
@@ -249,19 +249,19 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "L1_30min_" + name); 								//save as .tiff using an iteration for timepoint and image number
+            saveAs("tiff", Masks + "L1_30min_" + name); 		//save as .tiff using an iteration for timepoint and image number
             
             
             run("Close All");
@@ -277,19 +277,19 @@ macro "Binary processing script" {
 		
 
            	
-         	run("Duplicate...", " ");													//always use duplicates not raw images
+         	run("Duplicate...", " ");				//always use duplicates not raw images
     		run("Kuwahara Filter", "sampling=2");
-    		run("8-bit");																//transform 16-bit image into 8-bit for binary processing step
+    		run("8-bit");						//transform 16-bit image into 8-bit for binary processing step
     		
-    		run("Auto Threshold", "method=Percentile black");								//set threshold; other methods can be applied respectively
+    		run("Auto Threshold", "method=Percentile black");	//set threshold; other methods can be applied respectively
     		
-    		run("Make Binary");															//process binary images
+    		run("Make Binary");					//process binary images
     		
-    		run("Fill Holes");															//fill holes within cells 
+    		run("Fill Holes");					//fill holes within cells 
     		
-    		run("Watershed"); 															//use watershed algorithm for segmenation
+    		run("Watershed"); 					//use watershed algorithm for segmenation
     		 
-            saveAs("tiff", Masks + "L1_60min" + name); 									//save as .tiff using an iteration for timepoint and image number
+            saveAs("tiff", Masks + "L1_60min" + name); 			//save as .tiff using an iteration for timepoint and image number
                         
             run("Close All");
              					
