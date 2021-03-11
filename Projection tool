@@ -1,20 +1,27 @@
+// This macro generates projection images from fluorescence time lapse micrographs. Loops are organized to generate and store those projections in your folder structure.
+// You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
+// paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
+// will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
+// full automation you can use the command "getDirectory("name of your path") instead of the prefixed liner 
+
+
 "### Define paths ####"
 
         run("Set Measurements...", "area mean min integrated limit display redirect=None decimal=3");
               
        	Ffh_nc = "~path to your folder/raw_tiff/Ffh/a_NC/"
-		    Ffh_30min = "~path to your folder/raw_tiff/Ffh/b_after_30_min/"
-		    Ffh_60min = "~path to your folder/raw_tiff/Ffh/c_after_60min/"
+	Ffh_30min = "~path to your folder/raw_tiff/Ffh/b_after_30_min/"
+	Ffh_60min = "~path to your folder/raw_tiff/Ffh/c_after_60min/"
         
-		    FtsY_nc = "~path to your folder/raw_tiff/FtsY/a_NC/"
-		    FtsY_30min = "~path to your folder/raw_tiff/FtsY/b_after_30_min/"
-		    FtsY_60min = "~path to your folder/raw_tiff/FtsY/c_after_60_min/"  
+	FtsY_nc = "~path to your folder/raw_tiff/FtsY/a_NC/"
+	FtsY_30min = "~path to your folder/raw_tiff/FtsY/b_after_30_min/"
+	FtsY_60min = "~path to your folder/raw_tiff/FtsY/c_after_60_min/"  
         
         L1_nc = "~path to your folder/raw_tiff/L1/a_NC/"
         L1_30min = "~path to your folder/raw_tiff/L1/b_after_30_min/"
         L1_60min = "~path to your folder/raw_tiff/L1/c_after_60min/"
         
-		    Projections = "~path to your folder/Projections/"
+	Projections = "~path to your folder/Projections/"
         
         setBatchMode(false);
 
@@ -27,13 +34,13 @@ for(c=0; c<list.length; c++) {
 	open(Ffh_nc+list[c]);
 	f=c+1;
 	name = "series00";
-		Laser_excitation_start=501;
+		Laser_excitation_start=501; // This and the next line are important to define the intervall where the photobleaching steps are sufficient for single molecule level. Bleaching curves can be checked respectively.
  		Acquisition_limitation=1000;
  		Acquisition_time=Acquisition_limitation-Laser_excitation_start+1;
 		run("Duplicate...", "duplicate range=Laser_excitation_start-Acquisition_limitation");
- 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000");
- 		run("Z Project...", "projection=[Standard Deviation]");
-		run("Fire");
+ 		run("Properties...", "channels=1 slices=1 unit=[um] frames=Acquisition_time pixel_width=0.100000 pixel_height=0.100000"); // This line is crucial for calibration thus Andor Solis does not provide metadata out of the box. 
+ 		run("Z Project...", "projection=[Standard Deviation]"); // you can select different algorithms for specific needs. for our purpose, this worked out fine. 'SD' is used for tomographic representations.
+		run("Fire"); // LUT, you can change your style... 
 		run("Enhance Contrast", "saturated=0.35");
 		saveAs("Tiff",Projections+"Ffh_nc_"+name+f+".tiff");
  		close();
