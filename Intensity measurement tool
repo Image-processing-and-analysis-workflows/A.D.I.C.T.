@@ -26,7 +26,7 @@ macro "Measurements according to ROI" {
                                 path2 = dir2+list2[i];
 				roiManager("Open", path2);
                                 roiManager("Deselect");
-                                run("Subtract...", "value=100");
+                                run("Subtract...", "value=100"); // here you can define how much background will be substracted. Just try...
                                 roiManager("Measure");
                                 saveAs("Results", dir3+name+".csv");
                                 run("Clear Results");
