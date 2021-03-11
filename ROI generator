@@ -1,4 +1,6 @@
-// This macro generates regions of interest (roi) from binary images. Loops are organized to generate and store those projections in your folder structure.
+// This macro generates regions of interest (roi) from binary images. Loops are organized to generate and store those roi in your folder structure. Roi's are numbered and organized in an sequential manner.
+// Roi's are usefull not only for measuring content inside a selection or cell. The roi itself gives a lot of information like area for example. In this study, we take advantage of 
+// FIJI Roi manager to save roi coordinates into .zip folders encoded to be adressed to their respective projection or binary image.  
 // You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
 // paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
 // will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
