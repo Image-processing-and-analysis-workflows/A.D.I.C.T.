@@ -1,6 +1,6 @@
 
 // This macro measures each cell sequentially according to privously extracted ROI. It calls each image in the folder, each roi in each image and measures according to your needs.
-
+// In case of our example, projections are background corrected for each roi selected cell in a sequential manner. Results are stored as .csv tables that can be merged at a later stage.
 // You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
 // paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
 // will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
