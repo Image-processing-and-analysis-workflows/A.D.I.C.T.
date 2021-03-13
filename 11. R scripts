@@ -1,1 +1,140 @@
+############ R packages used for this part of the workflow ###########
+library(dplyr)
+library(ggplot2)
+library(sciplot)
+library(ggthemes)
+library(ggsignif)
+library(gridExtra)
+library(cowplot)
+library(ggthemes)
 
+#You can use the data table 'Puromycin_stress_CN32.csv'
+
+
+################################################################################################################################################
+## Shapiro-Wilk test to test for normal distribution : 
+################################################################################################################################################
+shapiro.test(Puromycin_stress_CN32$Area)
+shapiro.test(Puromycin_stress_CN32$IntDen)
+shapiro.test(Puromycin_stress_CN32$Mean)
+shapiro.test(Puromycin_stress_CN32$RawIntDen) #actually not used further in the study
+################################################################################################################################################
+
+
+
+################################################################################################################################################
+## Non-parametric testing for significant differences using pairwise wilcoxon test: 
+################################################################################################################################################
+pairwise.wilcox.test(Puromycin_stress_CN32$Area, Puromycin_stress_CN32$condition, p.adjust.method = p.adjust.methods, paired = FALSE)
+pairwise.wilcox.test(Puromycin_stress_CN32$Area, Puromycin_stress_CN32$protein, p.adjust.method = p.adjust.methods, paired = FALSE)
+
+################################################################################################################################################
+
+####################################################################################
+## First, create table to summarize data (e.g.Standard deviation and Standard error)
+####################################################################################
+Puromycin_stress_CN32_Mean <- Puromycin_stress_CN32 %>%
+  group_by(condition,protein) %>%
+  summarise( 
+    n=n(),
+    mean=mean(Mean),
+    se=se(Mean)
+  ) 
+Puromycin_stress_CN32_Mean
+
+Puromycin_stress_CN32_IntDen <- Puromycin_stress_CN32 %>%
+  group_by(condition,protein) %>%
+  summarise( 
+    n=n(),
+    meanIntDen=mean(IntDen),
+    seIntDen=se(IntDen)
+  )
+Puromycin_stress_CN32_IntDen
+
+###############################################################################
+##                                PLOTTING                                   ##
+###############################################################################
+## For the presented workflow, we use standard error...
+###############################################################################
+## Barplots plus standard errors 
+
+MGV <- ggplot(Puromycin_stress_CN32_Mean, aes(protein, mean, ymin=mean-se, ymax=mean+se)) + 
+            geom_bar(aes(fill = condition), position = "dodge", stat="identity") + 
+            geom_linerange (position = position_dodge(width=0.9), colour="magenta", size=2, aes(y=mean, group=condition)) +
+              # geom_point  (position = position_dodge(width=0.9), aes(y=mean, group=condition)) +
+            labs(title= paste(""), x="", y="mgv") +
+            scale_fill_colorblind() +
+            #scale_y_continuous( limits=c(0, 2500)) + 
+            theme_minimal()
+
+IntDensity <- ggplot(Puromycin_stress_CN32_IntDen, aes(protein, meanIntDen, ymin=meanIntDen-seIntDen, ymax=meanIntDen+seIntDen)) + 
+            geom_bar(aes(fill = condition), position = "dodge", stat="identity") + 
+            geom_linerange (position = position_dodge(width=0.9), colour="magenta", size=2, aes(y=meanIntDen, group=condition)) + 
+            scale_fill_colorblind()+
+            labs(title= paste(""), x="", y="Int.Density") +# optional for labeling plots, otherwise leave empty 
+            #geom_point  (position = position_dodge(width=0.9), aes(y=meanIntDen, group=condition)) +
+            theme_minimal()
+###################################################################################
+area <- Puromycin_stress_CN32 
+
+boxplot_Area <- ggplot(area, aes(x = condition, y = Area)) +
+  geom_boxplot() +  
+  geom_signif(y_position=c(10, 8.15, 12.1), xmin=c("0 min", "30 min", "0 min"), xmax=c("30 min","60 min","60 min"), annotation=c("***","***","***"), tip_length=0) + 
+  labs(title= paste(""), x="", y="Area (µm^2)") +
+  scale_y_continuous( limits=c(0, 15)) + 
+ theme_minimal()
+
+probDens_Area <- ggplot(area, aes(x = Area, fill = condition)) +
+  geom_density(alpha = 0.5) + scale_fill_colorblind() +theme_minimal() +
+  theme(legend.position = c(0.82222, 0.6))
+
+boxplot_AreaII <- ggplot(area, aes(x = protein, y = Area)) +
+  geom_boxplot() +  
+  geom_signif(y_position=c(10, 8.15, 12.1), xmin=c("Ffh", "FtsY", "Ffh"), xmax=c("FtsY","L1","L1"), annotation=c("n.s.","***", "***"), tip_length=0) + 
+  scale_y_continuous( limits=c(0, 15)) + 
+  labs(title= paste(""), x="", y="Area (µm^2)") +
+  scale_fill_colorblind() +
+  theme_minimal()
+  
+probDens_AreaII <- ggplot(area, aes(x = Area, fill = protein)) +
+  geom_density(alpha = 0.5) + scale_fill_colorblind() +theme_minimal() +
+  theme(legend.position = c(0.8225, 0.6))
+########################################################################################
+boxplot_AreaIII <- ggplot(only_nc_area, aes(x = protein, y = Area)) +
+  geom_boxplot() + scale_fill_colorblind() + theme_minimal()
+
+probDens_AreaIII <- ggplot(only_nc_area, aes(x = Area, fill = protein)) +
+  geom_density(alpha = 0.6) + scale_fill_colorblind() +theme_minimal() +
+  theme(legend.position = c(0.8, 0.6))
+########################################################################################
+p <- plot_grid(boxplot_Area, probDens_Area, boxplot_AreaII, probDens_AreaII, MGV, IntDensity, labels = "AUTO", ncol=2)
+p
+
+
+###############################################################################
+##                         CLUSTERING USING DBSCAN                           ##
+###############################################################################
+You can use the data table 'Puromycin_stress_CN32.csv' if you want to test only
+this script
+###############################################################################
+
+library(dbscan)
+png("plotDBSCAN.png", units="in", width=5, height=5, res=300)
+par(mfrow=c(3,2))
+L1 <- as.matrix(only_L1[,4:3])
+kNNdistplot(L1, k = 5)
+abline(h=30, col = "magenta", lty=2)
+protein <- dbscan(L1, eps = 30, minPts = 5)
+hullplot(L1, protein, main = "L1 clusters", xlab="Mean gray value", ylab="Area µm^2", xlim=c(0, 4000), ylim=c(0, 10), cex.axis=1)
+#############################################################################
+Ffh <- as.matrix(only_Ffh[,4:3])
+kNNdistplot(Ffh, k = 5)
+abline(h=3, col = "magenta", lty=2)
+protein2 <- dbscan(Ffh, eps = 3, minPts = 5)
+hullplot(Ffh, protein2, main = "Ffh clusters", xlab="Mean gray value", ylab="Area µm^2", xlim=c(200, 700), ylim=c(0, 10), cex.axis=1)
+#############################################################################
+FtsY <- as.matrix(only_FtsY[,4:3])
+kNNdistplot(FtsY, k = 5)
+abline(h=3, col = "magenta", lty=2)
+protein3 <- dbscan(FtsY, eps = 3, minPts = 5)
+hullplot(FtsY, protein3, main = "FtsY clusters", xlab="Mean gray value", ylab="Area µm^2", xlim=c(200, 700), ylim=c(0, 10), cex.axis=1)
