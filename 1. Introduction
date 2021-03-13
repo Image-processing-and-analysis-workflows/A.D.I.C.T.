@@ -1,0 +1,13 @@
+Welcome to Antibiotic  Drug  screening  and  Image  Characterization Toolbox (A.D.I.C.T.)
+
+This introduction gives advice, how to use the scripts published in F1000 to reproduce the workflow.
+
+-Please make sure that the folders containing your data (may they be part of your personal research or test data from the paper) is properly stored in respective folders.
+
+-Keep in mind that addressing the correct folders within this workflow is case sensitive, so in case it won't work as it should it could be explained by misspelling.
+
+-This is a combined workflow which can be used differently depending on the task you might want to address as part of your project. This is why the scripts are splitted
+ into subscripts to highlight individual steps of the workflow. However, you might find one script more usefull for your purposes as the other, so just keep on trying and
+ modifying for your analytical needs. Many crucial code snippets are labelled to explain their usage (in ImageJ macro it starts with "//"). 
+
+-However, feel free to ask questions around this workflow if you fare facing any trouble.
