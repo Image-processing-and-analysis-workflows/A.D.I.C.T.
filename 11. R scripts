@@ -7,6 +7,8 @@ library(ggsignif)
 library(gridExtra)
 library(cowplot)
 library(ggthemes)
+library(dbscan)
+library(tidyverse)
 
 #You can use the data table 'Puromycin_stress_CN32.csv'
 
@@ -51,11 +53,11 @@ Puromycin_stress_CN32_IntDen <- Puromycin_stress_CN32 %>%
   )
 Puromycin_stress_CN32_IntDen
 
-###############################################################################
-##                                PLOTTING                                   ##
-###############################################################################
-## For the presented workflow, we use standard error...
-###############################################################################
+##############################################################################################################
+##                                               PLOTTING                                                   ##
+##############################################################################################################
+## For the presented workflow, we use standard error (...data is not normal distributed and we want precision)
+##############################################################################################################
 ## Barplots plus standard errors 
 
 MGV <- ggplot(Puromycin_stress_CN32_Mean, aes(protein, mean, ymin=mean-se, ymax=mean+se)) + 
@@ -118,7 +120,11 @@ You can use the data table 'Puromycin_stress_CN32.csv' if you want to test only
 this script
 ###############################################################################
 
-library(dbscan)
+
+only_L1 <- Puromycin_stress_CN32 %>% filter(protein == "L1")
+only_FtsY <- Puromycin_stress_CN32 %>% filter(protein == "FtsY")
+only_Ffh <- Puromycin_stress_CN32 %>% filter(protein == "Ffh")
+
 png("plotDBSCAN.png", units="in", width=5, height=5, res=300)
 par(mfrow=c(3,2))
 L1 <- as.matrix(only_L1[,4:3])
