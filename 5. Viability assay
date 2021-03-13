@@ -1,4 +1,4 @@
-#Code is a recording of image processing steps used for viability assay in figure 2
+#Code is a recording of image processing steps used for viability assay in figure 3B
 
 imp = IJ.getImage();
 #### Remains of marker where removed by brush tool and colorized like background##########
