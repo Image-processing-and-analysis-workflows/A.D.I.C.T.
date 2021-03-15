@@ -57,11 +57,12 @@ Puromycin_stress_CN32_IntDen <- Puromycin_stress_CN32 %>%
   )
 Puromycin_stress_CN32_IntDen
 
-##############################################################################################################
-##                                               PLOTTING                                                   ##
-##############################################################################################################
-## For the presented workflow, we use standard error (...data is not normal distributed and we want precision)
-##############################################################################################################
+##############################################################################################################################
+##                                               PLOTTING                                                                   ##
+##############################################################################################################################
+## For the presented workflow, we use standard error (...data is not normally distributed and we want a measure for precision)
+##############################################################################################################################
+
 ## Barplots plus standard errors 
 
 MGV <- ggplot(Puromycin_stress_CN32_Mean, aes(protein, mean, ymin=mean-se, ymax=mean+se)) + 
