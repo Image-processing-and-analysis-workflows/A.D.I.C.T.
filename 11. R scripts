@@ -1,3 +1,7 @@
+Test data is available at: https://osf.io/fnj5g (->look for 'tables' folder)
+
+
+
 ############ R packages used for this part of the workflow ###########
 library(dplyr)
 library(ggplot2)
