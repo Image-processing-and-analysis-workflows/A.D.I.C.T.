@@ -2,7 +2,8 @@
 // Welcome to A.D.I.C.T. workflow
 // 
 // This script processes raw brightfield images into segmented and filtered binary images. Phase contrast or other imaging methods can also serve as raw data for the
-// binary processor. You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
+// binary processor. Test data is available at: https://osf.io/fnj5g (->look for raw brightfield example folder).
+// You can execute this script in FIJI and modify it according to your specific needs to process your samples. Important: this script will only work, if the 
 // paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
 // will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
 // full automation you can use the command "getDirectory("name of your path") instead of a prefixed liner. Important: If binary images will not fit to roi or projections, you have to make sure that the data base is correct.
