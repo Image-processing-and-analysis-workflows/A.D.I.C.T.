@@ -5,6 +5,8 @@
 // paths to your folders are all correctly adressed. Make sure that all folders mentioned in the script are correct. For full automation, lease, do create the necessary folders where your raw data is located and the folders where your results
 // will be stored. Attention! This script is case sensitive. So check the correct spelling of the names of the paths provided. However, if you are not confident with 
 // full automation you can use the command "getDirectory("name of your path") instead of the prefixed liner 
+// Test data is available at: https://osf.io/fnj5g (->look for 'ROI' and 'Projections' folders)
+
 
 macro "Measurements according to ROI" {
 
