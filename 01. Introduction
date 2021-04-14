@@ -5,7 +5,12 @@ Mayer, B., Schwan, M., Thormann, K. M., & Graumann, P. L.
 (2021, March 15). Antibiotic Drug screening and Image Characterization Toolbox  (A.D.I.C.T.):  
 test data for workflow deployment and reproduction. https://doi.org/10.17605/OSF.IO/FNJ5G
 
-This introduction gives advice, how to use the scripts published in F1000 to reproduce the workflow.
+This introduction gives advice, how to use the scripts published in F1000 to reproduce the workflow:
+
+Mayer B, Schwan M, Thormann KM and Graumann PL. Antibiotic Drug screening and Image Characterization Toolbox (A.D.I.C.T.): 
+a robust imaging workflow to monitor antibiotic stress response in bacterial cells in vivo 
+[version 1; peer review: awaiting peer review]. 
+F1000Research 2021, 10:277 (https://doi.org/10.12688/f1000research.51868.1) 
 
 -Please make sure that the folders containing your data (may they be part of your personal research or test data from the paper) is properly stored in respective folders.
 
